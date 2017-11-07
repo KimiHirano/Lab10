@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class EmployeeDatabase {
 
+
     /**
      * List of employees.
      */
@@ -30,8 +31,8 @@ public class EmployeeDatabase {
     /**
      * Returns the manager for the given employee.
      *
-     * @param employee
-     * @return
+     * @param employee the employee to find the manager of
+     * @return manager of the given employee
      */
     Employee findManager(final Employee employee) {
         Employee manager = null;
@@ -53,9 +54,12 @@ public class EmployeeDatabase {
      * @return int
      */
     public int countManagersAbove(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        //base case
+        if (employee.getManager() == "") {
+            return 0;
+        }
+        //recursive case
+        return 1 + countManagersAbove(findManager(employee));
     }
 
     /**
@@ -67,9 +71,13 @@ public class EmployeeDatabase {
      * @return int
      */
     public int countEmployeesUnder(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        int employeeCount = 0;
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i).getManager().equals(employee.getName())) {
+                employeeCount += 1 + countEmployeesUnder(employees.get(i));
+            }
+        }
+        return employeeCount;
     }
 
     /**
